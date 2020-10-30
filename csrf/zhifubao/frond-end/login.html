@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    html, body { padding: 0; margin: 0; display: flex; align-items: center; flex-direction: column; padding-top: 100px; }
+  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>登录 - 脂腹饱</title>
+</head>
+<body>
+
+  <h1>用户登录, 脂腹饱~</h1>
+
+  <form id="form" method="POST" action="/api/login">
+    <input
+      required
+      name="id"
+      placeholder="请输入用户 id"
+      list="users"
+    />
+
+    <!-- html 5 内置的 sug 框 -->
+    <datalist id="users">
+      <option value="quanquan">quanquan</option>
+      <option value="zhangsan">zhangsan</option>
+      <option value="huangguan">huangguan</option>
+    </datalist>
+
+    <button type="submit">登录</button>
+  </form>
+</body>
+</html>

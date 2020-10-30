@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+  <style>
+    html, body {
+      padding: 0;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      padding-top: 100px;
+    }
+  </style>
+  <title>欢迎使用 - 脂腹饱</title>
+</head>
+<body>
+
+  <h1>脂腹饱, 脂托腹~</h1>
+  <h3>欢迎 <span id="user"></span>. 钱包余额: <span id="money"></span>元</h3>
+  <form>
+    <label>转账给: </label>
+    <select name="toUser">
+      <option value="quanquan">quanquan</option>
+      <option value="zhangsan">zhangsan</option>
+      <option value="huangguan">huangguan</option>
+    </select>
+    <input type="text" name="money" placeholder="转账金额">
+    <button type="submit">转账</button>
+  </form>
+
+
+  <script>
+    const refresMyMoney = () => {
+      $.get('/api/appinfo').done(({errno, data}) => {
+        if (errno === 0) {
+          const {userName, money} = data
+          $('#money').html(money)
+          $('#user').html(userName)
+        } else {
+          location.href = '/login.html'
+        }
+      })
+    }
+
+    $('form').on('submit', e => {
+      e.preventDefault()
+      const formData =
+        $(e.target).serializeArray()
+          .map(({name, value}) => ({[name]: value}))
+          .reduce((memo, curItem) => ({...memo, ...curItem}) , {})
+
+      $.get('/api/transfer', formData).done(resp => {
+        if (resp.errno === 0) {
+          refresMyMoney()
+        } else {
+          location.href = '/login.html'
+        }
+      })
+    })
+
+    // 页面加载完成, 请求当前页面数据
+    window.onload = refresMyMoney
+  </script>
+</body>
+</html>
