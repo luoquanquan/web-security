@@ -6,13 +6,14 @@
     html, body { padding: 0; margin: 0; display: flex; align-items: center; flex-direction: column; padding-top: 100px; }
   </style>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
   <title>登录 - 脂腹饱</title>
 </head>
 <body>
 
   <h1>用户登录, 脂腹饱~</h1>
 
-  <form id="form" method="POST" action="/api/login">
+  <form>
     <input
       required
       name="id"
@@ -29,5 +30,26 @@
 
     <button type="submit">登录</button>
   </form>
+
+  <script>
+    $('form').on('submit', e => {
+      e.preventDefault()
+      const formData =
+        $(e.target).serializeArray()
+          .map(({ name, value }) => ({ [name]: value }))
+          .reduce((memo, curItem) => ({ ...memo, ...curItem }), {})
+
+      $.post('/api/login', formData).done(resp => {
+        if (resp.errno === 0) {
+          const {data} = resp
+          localStorage.setItem('token', data);
+          location.href = '/'
+        } else {
+          alert('登录失败~')
+        }
+      })
+    })
+  </script>
 </body>
+
 </html>

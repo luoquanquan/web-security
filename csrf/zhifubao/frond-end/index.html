@@ -34,7 +34,12 @@
 
   <script>
     const refresMyMoney = () => {
-      $.get('/api/appinfo').done(({errno, data}) => {
+      $.ajax({
+        url: '/api/appinfo',
+        headers: {
+          token: localStorage.getItem('token')
+        }
+      }).done(({errno, data}) => {
         if (errno === 0) {
           const {userName, money} = data
           $('#money').html(money)
@@ -52,7 +57,14 @@
           .map(({name, value}) => ({[name]: value}))
           .reduce((memo, curItem) => ({...memo, ...curItem}) , {})
 
-      $.post('/api/transfer', formData).done(resp => {
+      $.ajax({
+        url: '/api/transfer',
+        method: 'post',
+        data: formData,
+        headers: {
+          token: localStorage.getItem('token')
+        }
+      }).done(resp => {
         if (resp.errno === 0) {
           refresMyMoney()
         } else {
