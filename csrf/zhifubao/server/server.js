@@ -23,6 +23,7 @@ const router = new KoaRouter()
  */
 router.all('/api/login', ctx => {
   const { body: { id } } = getReqData(ctx)
+  console.log(`当前时间 ${Date.now()}: debug 的数据是 id: `, id)
   if (db[id]) {
     ctx.cookies.set('userid', id)
     ctx.redirect('/')
@@ -37,6 +38,7 @@ router.all('/api/login', ctx => {
  */
 router.all('/api/appinfo', ctx => {
   const { id } = getReqData(ctx)
+  console.log(`当前时间 ${Date.now()}: debug 的数据是 db[id]: `, db[id])
   if (db[id]) {
     ctx.body = {
       errno: 0,
@@ -51,8 +53,8 @@ router.all('/api/appinfo', ctx => {
 })
 
 // 转账, 余额不足之类的异常情况统统不考虑
-router.all('/api/transfer', ctx => {
-  const { query: { toUser, money }, id } = getReqData(ctx)
+router.post('/api/transfer', ctx => {
+  const { body: { toUser, money }, id } = getReqData(ctx)
   if (!id) {
     ctx.body = { errno: 666, errmsg: '您尚未登录请登录' }
     return

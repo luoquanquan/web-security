@@ -52,7 +52,7 @@
           .map(({name, value}) => ({[name]: value}))
           .reduce((memo, curItem) => ({...memo, ...curItem}) , {})
 
-      $.get('/api/transfer', formData).done(resp => {
+      $.post('/api/transfer', formData).done(resp => {
         if (resp.errno === 0) {
           refresMyMoney()
         } else {
