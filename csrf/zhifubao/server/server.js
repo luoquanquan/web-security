@@ -53,6 +53,10 @@ router.all('/api/appinfo', ctx => {
 // 转账, 余额不足之类的异常情况统统不考虑
 router.all('/api/transfer', ctx => {
   const { query: { toUser, money }, id } = getReqData(ctx)
+  if (!id) {
+    ctx.body = { errno: 666, errmsg: '您尚未登录请登录' }
+    return
+  }
   db[toUser] += (+money)
   db[id] -= (+money)
   ctx.body = { errno: 0 }
